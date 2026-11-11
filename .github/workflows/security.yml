@@ -58,3 +58,19 @@ jobs:
         with:
           name: pip-audit-report
           path: pip-audit-report.json
+          
+   use-github-secrets:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Check secrets are loaded
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+          API_KEY: ${{ secrets.API_KEY }}
+        run: python -c "import config; print('SECRET_KEY loaded:', bool(config.SECRET_KEY)); print('DB_PASSWORD loaded:', bool(config.DB_PASSWORD)); print('API_KEY loaded:', bool(config.API_KEY))"
+
