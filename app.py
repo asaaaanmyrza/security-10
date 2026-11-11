@@ -1,9 +1,10 @@
 from flask import Flask, request
 import subprocess, hashlib
+import config
 
 app = Flask(__name__)
-app.secret_key = "super-secret-123"
-DB_PASSWORD = "admin12345"
+app.secret_key = config.SECRET_KEY
+DB_PASSWORD = config.DB_PASSWORD
 
 @app.route("/ping")
 def ping():
